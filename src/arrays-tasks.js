@@ -284,8 +284,13 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  const createArray = (x) => {
+    const arr = new Array(size).fill(0);
+    return x === 1 ? arr : arr.map(() => createArray(x - 1));
+  };
+
+  return createArray(n);
 }
 
 /**
@@ -349,8 +354,10 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  return Array(Math.ceil(arr.length / chunkSize))
+    .fill()
+    .map((_, index) => arr.slice(index * chunkSize, (index + 1) * chunkSize));
 }
 
 /**
@@ -426,8 +433,10 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,1,0],
  *                              [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  return Array.from({ length: n }, (_, i) =>
+    Array.from({ length: n }, (x, j) => (i === j ? 1 : 0))
+  );
 }
 
 /**
@@ -519,8 +528,19 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let count = 1;
+  let result = 0;
+  nums.map((elem, index) => {
+    if (elem < nums[index + 1]) {
+      count += 1;
+    } else {
+      result = result < count ? count : result;
+      count = 1;
+    }
+    return result;
+  });
+  return result;
 }
 
 /**
